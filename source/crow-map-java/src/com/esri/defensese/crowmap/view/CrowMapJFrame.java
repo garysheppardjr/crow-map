@@ -111,7 +111,7 @@ public class CrowMapJFrame extends javax.swing.JFrame {
         map = new com.esri.map.JMap();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
-        setTitle("CrowMap");
+        setTitle("Crow Map");
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
                 formWindowClosing(evt);
