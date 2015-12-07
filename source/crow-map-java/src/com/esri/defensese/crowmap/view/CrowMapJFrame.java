@@ -90,13 +90,6 @@ public class CrowMapJFrame extends javax.swing.JFrame {
             }
         });
         mapLoader.loadMap(map);
-        
-        SimpleMarkerSymbol simpleMarker = new SimpleMarkerSymbol(Color.RED, 20, SimpleMarkerSymbol.Style.CROSS);
-        GraphicsLayer graphicsLayer = new GraphicsLayer();
-        Point point = new Point(121.5, 24);
-        Graphic pointGraphic = new Graphic(point, simpleMarker);
-        graphicsLayer.addGraphic(pointGraphic);
-        map.getLayers().add(graphicsLayer);
     }
 
     /**
