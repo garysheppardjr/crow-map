@@ -18,8 +18,13 @@ package com.esri.defensese.crowmap.android.view;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 
+import com.esri.android.map.Layer;
+import com.esri.android.map.MapView;
 import com.esri.defensese.crowmap.android.R;
 import com.esri.defensese.crowmap.common.controller.MapController;
+import com.esri.defensese.crowmap.common.controller.MapLoader;
+import com.esri.defensese.crowmap.common.model.MapContents;
+import com.esri.defensese.crowmap.common.model.UserMapPrompt;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,5 +35,30 @@ public class CrowMapMainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_crow_map_main);
+
+        MapLoader mapLoader = new MapLoader(new UserMapPrompt() {
+
+            @Override
+            public MapContents getMapContents() {
+                MapContents mapContents = new MapContents();
+                return mapContents;
+            }
+
+        });
+
+        mapLoader.loadMap(new MapController() {
+
+            private final MapView mapView = (MapView) findViewById(R.id.map);
+
+            @Override
+            public boolean addLayer(Object layer) {
+                if (layer instanceof Layer) {
+                    return 0 < mapView.addLayer((Layer) layer);
+                } else {
+                    return false;
+                }
+            }
+            
+        });
     }
 }

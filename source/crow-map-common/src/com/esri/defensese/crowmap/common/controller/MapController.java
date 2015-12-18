@@ -15,13 +15,16 @@
  ******************************************************************************/
 package com.esri.defensese.crowmap.common.controller;
 
-import java.util.List;
-
 /**
  * An interface for classes that interact with map implementations.
  */
 public interface MapController {
     
-    public List<Object> getLayers();
+    /**
+     * Adds the layer to the top of the map.
+     * @param layer the layer to add.
+     * @return true if the layer was added.
+     */
+    public boolean addLayer(Object layer);
     
 }

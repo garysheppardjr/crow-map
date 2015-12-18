@@ -23,6 +23,7 @@ import com.esri.defensese.crowmap.common.controller.MapController;
 import com.esri.defensese.crowmap.common.controller.MapLoader;
 import com.esri.defensese.crowmap.common.model.MapContents;
 import com.esri.map.FeatureLayer;
+import com.esri.map.Layer;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
@@ -87,13 +88,12 @@ public class CrowMapJFrame extends javax.swing.JFrame {
                 }
             }
         });
-        mapLoader.loadMap(new MapController() {
-
-            @Override
-            public List getLayers() {
-                return map.getLayers();
+        mapLoader.loadMap((Object layer) -> {
+            if (layer instanceof Layer) {
+                return map.getLayers().add((Layer) layer);
+            } else {
+                return false;
             }
-            
         });
     }
 

@@ -77,7 +77,7 @@ public class MapLoader {
     
     private static void addAllLayers(MapController mapController, List<Object> layers) {
         for (Object layer : layers) {
-            mapController.getLayers().add(layer);
+            mapController.addLayer(layer);
         }
     }
     
