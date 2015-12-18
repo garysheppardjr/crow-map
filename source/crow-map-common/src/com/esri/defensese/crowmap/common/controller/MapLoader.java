@@ -13,12 +13,10 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  ******************************************************************************/
-package com.esri.defensese.crowmap.controller;
+package com.esri.defensese.crowmap.common.controller;
 
-import com.esri.defensese.crowmap.model.MapContents;
-import com.esri.defensese.crowmap.view.UserMapPrompt;
-import com.esri.map.JMap;
-import com.esri.map.Layer;
+import com.esri.defensese.crowmap.common.model.MapContents;
+import com.esri.defensese.crowmap.common.model.UserMapPrompt;
 import java.util.List;
 
 /**
@@ -48,9 +46,9 @@ public class MapLoader {
      *     <li>Prompt the user for an ArcGIS Runtime content directory or a web
      *         map. (TODO web map chooser and download not yet implemented)</li>     * 
      * </ol>
-     * @param map 
+     * @param mapController a MapController to help add the layers to the map.
      */
-    public void loadMap(JMap map) {
+    public void loadMap(MapController mapController) {
         MapContents mapContents;
         
         /**
@@ -72,14 +70,14 @@ public class MapLoader {
          * 4. Load the map.
          */
         if (null != mapContents) {
-            addAllLayers(map, mapContents.getBasemapLayers());
-            addAllLayers(map, mapContents.getOperationalLayers());
+            addAllLayers(mapController, mapContents.getBasemapLayers());
+            addAllLayers(mapController, mapContents.getOperationalLayers());
         }
     }
     
-    private static void addAllLayers(JMap map, List<Layer> layers) {
-        for (Layer layer : layers) {
-            map.getLayers().add(layer);
+    private static void addAllLayers(MapController mapController, List<Object> layers) {
+        for (Object layer : layers) {
+            mapController.getLayers().add(layer);
         }
     }
     

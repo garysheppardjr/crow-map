@@ -13,9 +13,7 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  ******************************************************************************/
-package com.esri.defensese.crowmap.view;
-
-import com.esri.defensese.crowmap.model.MapContents;
+package com.esri.defensese.crowmap.common.model;
 
 /**
  * Prompts the user to choose a map.

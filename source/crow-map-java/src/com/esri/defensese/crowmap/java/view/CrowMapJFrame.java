@@ -13,17 +13,20 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  ******************************************************************************/
-package com.esri.defensese.crowmap.view;
+package com.esri.defensese.crowmap.java.view;
 
+import com.esri.defensese.crowmap.common.model.UserMapPrompt;
 import com.esri.client.local.ArcGISLocalTiledLayer;
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
-import com.esri.defensese.crowmap.controller.MapLoader;
-import com.esri.defensese.crowmap.model.MapContents;
+import com.esri.defensese.crowmap.common.controller.MapController;
+import com.esri.defensese.crowmap.common.controller.MapLoader;
+import com.esri.defensese.crowmap.common.model.MapContents;
 import com.esri.map.FeatureLayer;
 import java.io.File;
 import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JFileChooser;
@@ -84,7 +87,14 @@ public class CrowMapJFrame extends javax.swing.JFrame {
                 }
             }
         });
-        mapLoader.loadMap(map);
+        mapLoader.loadMap(new MapController() {
+
+            @Override
+            public List getLayers() {
+                return map.getLayers();
+            }
+            
+        });
     }
 
     /**

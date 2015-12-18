@@ -13,9 +13,8 @@
  *   See the License for the specific language governing permissions and
  *   limitations under the License.
  ******************************************************************************/
-package com.esri.defensese.crowmap.model;
+package com.esri.defensese.crowmap.common.model;
 
-import com.esri.map.Layer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -25,14 +24,14 @@ import java.util.List;
  */
 public class MapContents {
     
-    private final List<Layer> basemapLayers = new ArrayList<>();
-    private final List<Layer> operationalLayers = new ArrayList<>();
+    private final List<Object> basemapLayers = new ArrayList<>();
+    private final List<Object> operationalLayers = new ArrayList<>();
 
-    public List<Layer> getBasemapLayers() {
+    public List<Object> getBasemapLayers() {
         return basemapLayers;
     }
 
-    public List<Layer> getOperationalLayers() {
+    public List<Object> getOperationalLayers() {
         return operationalLayers;
     }
     
