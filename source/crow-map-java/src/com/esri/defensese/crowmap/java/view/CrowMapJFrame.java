@@ -27,15 +27,21 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.ImageIcon;
 import javax.swing.JFileChooser;
 
 public class CrowMapJFrame extends javax.swing.JFrame {
+    
+    private static final int VERSION_CODE = 1;
+    private static final String VERSION_NAME = "1.0.0";
 
     /**
      * Creates new form CrowMapJFrame
      */
     public CrowMapJFrame() {
         initComponents();
+        
+        setIconImage(new ImageIcon(getClass().getResource("/com/esri/defensese/crowmap/java/resources/crow-map.png")).getImage());
         
         MapLoader mapLoader = new MapLoader(new UserMapPrompt() {
 
