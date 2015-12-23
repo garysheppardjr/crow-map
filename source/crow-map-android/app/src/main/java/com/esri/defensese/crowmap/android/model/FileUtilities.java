@@ -31,7 +31,7 @@ public class FileUtilities {
      */
     public static HashSet<String> getExternalMounts() {
         final HashSet<String> out = new HashSet<String>();
-        String reg = "(?i).*vold.*(vfat|ntfs|exfat|fat32|ext3|ext4).*rw.*";
+        String reg = ".*sdcardfs.*";
         String s = "";
         try {
             final Process process = new ProcessBuilder().command("mount")
@@ -53,7 +53,8 @@ public class FileUtilities {
             if (!line.toLowerCase(Locale.US).contains("asec")) {
                 if (line.matches(reg)) {
                     String[] parts = line.split(" ");
-                    for (String part : parts) {
+                    for (int i = 1; i < parts.length; i++) {
+                        String part = parts[i];
                         if (part.startsWith("/"))
                             if (!part.toLowerCase(Locale.US).contains("vold"))
                                 out.add(part);

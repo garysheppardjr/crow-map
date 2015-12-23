@@ -27,10 +27,20 @@ public class MapContents {
     private final List<Object> basemapLayers = new ArrayList<>();
     private final List<Object> operationalLayers = new ArrayList<>();
 
+    /**
+     * Returns the basemap layers in this MapContents object, each one being a layer object in the GIS
+     * library you're using.
+     * @return the basemap layers in this MapContents object.
+     */
     public List<Object> getBasemapLayers() {
         return basemapLayers;
     }
 
+    /**
+     * Returns the operational layers in this MapContents object, each one being a layer object in the
+     * GIS library you're using.
+     * @return the operational layers in this MapContents object.
+     */
     public List<Object> getOperationalLayers() {
         return operationalLayers;
     }

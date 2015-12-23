@@ -17,6 +17,8 @@ package com.esri.defensese.crowmap.common.controller;
 
 import com.esri.defensese.crowmap.common.model.MapContents;
 import com.esri.defensese.crowmap.common.model.UserMapPrompt;
+import com.esri.defensese.crowmap.common.model.UserMapPromptListener;
+
 import java.util.List;
 
 /**
@@ -37,14 +39,14 @@ public class MapLoader {
     }
     
     /**
-     * Loads the specified JMap with layers based on an ArcGIS Runtime content directory.
-     * The location of the directory is determined as follows:<br/>
+     * Synchronously loads the specified map with layers based on an ArcGIS Runtime
+     * content directory. The location of the directory is determined as follows:<br/>
      * <ol>
      *     <li>Check for a previously stored user preference. (TODO not yet implemented)</li>
      *     <li>Check the working directory for an ArcGIS Runtime content directory.
      *         (TODO not yet implemented)</li>
      *     <li>Prompt the user for an ArcGIS Runtime content directory or a web
-     *         map. (TODO web map chooser and download not yet implemented)</li>     * 
+     *         map. (TODO web map chooser and download not yet implemented)</li>
      * </ol>
      * @param mapController a MapController to help add the layers to the map.
      */
@@ -69,6 +71,51 @@ public class MapLoader {
         /**
          * 4. Load the map.
          */
+        addMapContentsToMap(mapController, mapContents);
+    }
+    
+    /**
+     * Asynchronously loads the specified map with layers based on an ArcGIS Runtime
+     * content directory. The location of the directory is determined as described
+     * in the loadMap documentation.
+     * @param mapController a MapController to help add the layers to the map.
+     */
+    public void loadMapAsync(final MapController mapController) {
+        /**
+         * 1. Check for a user preference.
+         */
+        //TODO
+        
+        /**
+         * 2. Check the working directory for a map.
+         */
+        //TODO
+        
+        /**
+         * 3. Prompt the user.
+         */
+        prompt.promptUserForMapContents(new UserMapPromptListener() {
+
+            @Override
+            public void mapContentsSelected(final MapContents mapContents) {
+                /**
+                 * 4. Load the map.
+                 */
+                new Thread() {
+
+                    @Override
+                    public void run() {
+                        addMapContentsToMap(mapController, mapContents);
+                    }
+
+                }.start();
+            }
+
+        });
+        
+    }
+    
+    private static void addMapContentsToMap(MapController mapController, MapContents mapContents) {
         if (null != mapContents) {
             addAllLayers(mapController, mapContents.getBasemapLayers());
             addAllLayers(mapController, mapContents.getOperationalLayers());

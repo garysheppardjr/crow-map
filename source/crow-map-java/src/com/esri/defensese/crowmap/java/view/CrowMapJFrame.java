@@ -19,17 +19,14 @@ import com.esri.defensese.crowmap.common.model.UserMapPrompt;
 import com.esri.client.local.ArcGISLocalTiledLayer;
 import com.esri.core.geodatabase.Geodatabase;
 import com.esri.core.geodatabase.GeodatabaseFeatureTable;
-import com.esri.defensese.crowmap.common.controller.MapController;
 import com.esri.defensese.crowmap.common.controller.MapLoader;
 import com.esri.defensese.crowmap.common.model.MapContents;
 import com.esri.map.FeatureLayer;
 import com.esri.map.Layer;
 import java.io.File;
-import java.io.FileFilter;
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 import java.util.List;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.JFileChooser;
 
 public class CrowMapJFrame extends javax.swing.JFrame {
@@ -50,43 +47,28 @@ public class CrowMapJFrame extends javax.swing.JFrame {
                 int fileChooserReturnState = fileChooser.showOpenDialog(CrowMapJFrame.this);
                 if (JFileChooser.APPROVE_OPTION == fileChooserReturnState) {
                     File offlineMapDir = fileChooser.getSelectedFile();
-                    MapContents contents = new MapContents();
-                    File basemapsDir = new File(offlineMapDir, "basemap");
-                    File[] basemapDirs = basemapsDir.listFiles();
-                    if (null != basemapDirs) {
-                        for (File basemapDir : basemapDirs) {
-                            ArcGISLocalTiledLayer layer = new ArcGISLocalTiledLayer(basemapDir.getAbsolutePath());
-                            contents.getBasemapLayers().add(layer);
-                        }
-                    }
-                    File dataDir = new File(offlineMapDir, "data");
-                    File[] gdbFiles = dataDir.listFiles(new FileFilter() {
-
-                        @Override
-                        public boolean accept(File pathname) {
-                            String name = pathname.getName();
-                            return null != name && name.trim().toLowerCase().endsWith(".geodatabase");
-                        }
-                    });
-                    if (null != gdbFiles) {
-                        for (File gdbFile : gdbFiles) {
-                            Geodatabase gdb;
-                            try {
-                                gdb = new Geodatabase(gdbFile.getAbsolutePath());
-                                for (GeodatabaseFeatureTable table : gdb.getGeodatabaseTables()) {
-                                    FeatureLayer layer = new FeatureLayer(table);
-                                    contents.getOperationalLayers().add(layer);
-                                }
-                            } catch (FileNotFoundException ex) {
-                                Logger.getLogger(CrowMapJFrame.class.getName()).log(Level.SEVERE, null, ex);
-                            }
-                        }
-                    }
-                    return contents;
+                    return readDirectory(offlineMapDir);
                 } else {
                     return null;
                 }
             }
+
+            @Override
+            protected Object makeLocalTiledLayer(String path) {
+                return new ArcGISLocalTiledLayer(path);
+            }
+            
+            @Override
+            protected List<Object> readLayers(String gdbPath) throws FileNotFoundException {
+                ArrayList<Object> layers = new ArrayList<>();
+                Geodatabase gdb = new Geodatabase(gdbPath);
+                for (GeodatabaseFeatureTable table : gdb.getGeodatabaseTables()) {
+                    FeatureLayer layer = new FeatureLayer(table);
+                    layers.add(layer);
+                }
+                return layers;
+            }
+        
         });
         mapLoader.loadMap((Object layer) -> {
             if (layer instanceof Layer) {
